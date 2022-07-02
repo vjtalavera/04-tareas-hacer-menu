@@ -18,10 +18,58 @@ class Tareas {
         this._listado = {};
     }
 
+    borrarTarea ( id = '') {
+        if (this._listado[id]) {
+            delete this._listado[id]
+        }
+    }
+
+    cargarTareasFromArray (tareas = []) {
+        tareas.forEach (tarea => {
+            this._listado[tarea.id] = tarea
+        })
+    }
+
+
     crearTarea (desc='') {
         const tarea = new Tarea(desc);
         this._listado[tarea.id] = tarea;
     }
+
+    listadoCompleto() {
+
+        this.listadoArr.forEach((tarea, i) => {
+            const idx = `${i+1}`.green
+            const {desc, completadoEn} = tarea
+            const estado = (completadoEn) ? 
+            'Completada'.green:
+            'Pendiente'.red
+
+            console.log(`${idx} ${desc} :: ${estado}`);
+
+        })
+    }
+
+    listarPendientesCompletadas (completadas = true) {
+        this.listadoArr.forEach ((tarea, i) => {
+            
+            const {desc, completadoEn} = tarea
+    
+            if (completadas && completadoEn) {
+                const idx = `${i+1}`.green
+                console.log(`${idx} ${desc} ${completadoEn}`);            
+            } if (!completadas && !completadoEn)
+             {
+                const idx = `${i+1}`.red
+                console.log(`${idx} ${desc}`);            
+            }
+        })
+
+
+
+    }
+
 }
+
 
 module.exports = Tareas;
